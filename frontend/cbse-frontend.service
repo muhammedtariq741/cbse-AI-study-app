@@ -9,8 +9,8 @@ User=ec2-user
 Group=ec2-user
 WorkingDirectory=/home/ec2-user/cbse-AI-study-app/frontend
 
-# Use npm to run production server
-ExecStart=/usr/bin/npm start -- -H 0.0.0.0 -p 3000
+# Use wrapper script to load NVM/Node 20
+ExecStart=/bin/bash /home/ec2-user/cbse-AI-study-app/frontend/start_service.sh
 
 # Restart policy
 Restart=always

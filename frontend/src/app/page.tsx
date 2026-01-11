@@ -70,7 +70,11 @@ export default function StudyPage() {
     setError(null);
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/v1/query', {
+      // Use environment variable for API URL (defaults to localhost for dev)
+      // IMPORTANT: In production, this must be the Public IP of the EC2 instance
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+
+      const res = await fetch(`${API_BASE_URL}/api/v1/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,30 +1,49 @@
-# Core Framework
+# CBSE AI Study App - Backend Dependencies
+# Generated from working environment
+
+# Web Framework
 fastapi==0.115.0
-uvicorn[standard]==0.32.0
-python-dotenv==1.0.1
-pydantic==2.10.0
-pydantic-settings==2.6.0
+uvicorn==0.32.0
+starlette==0.38.6
 
 # Google AI
 google-genai==1.0.0
-
-# PDF Processing
-pymupdf==1.25.0
-pdfplumber==0.11.4
+google-auth==2.47.0
 
 # Vector Store
 faiss-cpu==1.9.0
 numpy==2.2.0
 
-# Async Support
-aiofiles==24.1.0
+# PDF Processing
+PyMuPDF==1.25.0
+pdfplumber==0.11.4
+pdfminer.six==20231228
+
+# Data Validation
+pydantic==2.10.0
+pydantic-settings==2.12.0
+pydantic_core==2.27.0
+
+# Environment & Config
+python-dotenv==1.0.1
+
+# HTTP Client
 httpx==0.28.0
+requests==2.32.5
+
+# Retry Logic
+tenacity==9.0.0
+
+# Token Counting
+tiktoken==0.8.0
 
 # Testing
 pytest==8.3.0
 pytest-asyncio==0.24.0
 pytest-cov==6.0.0
+coverage==7.13.1
 
 # Utilities
-tiktoken==0.8.0
-tenacity==9.0.0
+aiofiles==24.1.0
+PyYAML==6.0.3
+regex==2025.11.3

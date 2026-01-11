@@ -1,0 +1,32 @@
+[Unit]
+Description=CBSE Study App - Backend API (FastAPI + Uvicorn)
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/cbse-AI-study-app/backend
+
+# Use the virtual environment Python
+ExecStart=/home/ec2-user/cbse-AI-study-app/backend/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# Restart policy
+Restart=always
+RestartSec=5
+
+# Environment
+Environment=PATH=/home/ec2-user/cbse-AI-study-app/backend/venv/bin:/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=/home/ec2-user/cbse-AI-study-app/backend/.env
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cbse-backend
+
+# Security hardening
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

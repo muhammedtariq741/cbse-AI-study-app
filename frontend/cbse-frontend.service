@@ -1,0 +1,32 @@
+[Unit]
+Description=CBSE Study App - Frontend (Next.js)
+After=network.target cbse-backend.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/cbse-AI-study-app/frontend
+
+# Use npm to run production server
+ExecStart=/usr/bin/npm start -- -H 0.0.0.0 -p 3000
+
+# Restart policy
+Restart=always
+RestartSec=5
+
+# Environment
+Environment=NODE_ENV=production
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cbse-frontend
+
+# Security hardening
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,49 @@
+Chapter 1: Matter in Our Surroundings
+
+Physical Nature of Matter
+• Matter is made up of particles.
+• The particles of matter are very small – beyond our imagination.
+
+Characteristics of Particles of Matter
+• Particles of matter have space between them.
+• Particles of matter are continuously moving.
+• Particles of matter attract each other.
+
+States of Matter
+Matter exists in three states: Solid, Liquid, and Gas.
+
+1. The Solid State
+• Solids have a definite shape, distinct boundaries and fixed volumes, that is, have negligible compressibility.
+• Solids have a tendency to maintain their shape when subjected to outside force.
+• Solids may break under force but it is difficult to change their shape, so they are rigid.
+
+2. The Liquid State
+• Liquids have no fixed shape but have a fixed volume.
+• They take up the shape of the container in which they are kept.
+• Liquids flow and change shape, so they are not rigid but can be called fluid.
+• The rate of diffusion of liquids is higher than that of solids.
+
+3. The Gaseous State
+• Gases are highly compressible as compared to solids and liquids.
+• Due to high speed of particles and large space between them, gases show the property of diffusing very fast into other gases.
+
+Effect of Change of Temperature
+• On increasing the temperature of solids, the kinetic energy of the particles increases. Due to the increase in kinetic energy, the particles start vibrating with greater speed.
+• The temperature at which a solid melts to become a liquid at the atmospheric pressure is called its melting point.
+• The process of melting, that is, change of solid state into liquid state is also known as fusion.
+• The temperature at which a liquid starts boiling at the atmospheric pressure is known as its boiling point.
+• Latent heat of vaporization is the heat energy required to change 1 kg of a liquid to gas at atmospheric pressure at its boiling point.
+• Sublimation: A change of state directly from solid to gas without changing into liquid state is called sublimation (e.g., Camphor).
+
+Effect of Change of Pressure
+• Applying pressure and reducing temperature can liquefy gases.
+• Solid carbon dioxide (CO2) is stored under high pressure. It converts directly to gaseous state on decrease of pressure to 1 atmosphere without coming into liquid state. This is the reason that solid carbon dioxide is also known as dry ice.
+
+Evaporation
+• The phenomenon of change of a liquid into vapours at any temperature below its boiling point is called evaporation.
+• Factors affecting evaporation:
+  - An increase of surface area increases evaporation.
+  - An increase of temperature increases evaporation.
+  - A decrease in humidity increases evaporation.
+  - An increase in wind speed increases evaporation.
+• Evaporation causes cooling.

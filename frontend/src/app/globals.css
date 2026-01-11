@@ -1,0 +1,525 @@
+/* ===================================
+   CBSE Study App - Student-Friendly Theme
+   Minimalistic, calming, distraction-free
+   =================================== */
+
+:root {
+  /* Calming Green/Nature Palette - Easy on eyes for long study sessions */
+  --color-bg-primary: #f0f4f0;
+  /* Very light sage */
+  --color-bg-secondary: #ffffff;
+  /* Pure white cards */
+  --color-bg-accent: #e8f5e9;
+  /* Light mint for highlights */
+
+  --color-text-primary: #2d3a2d;
+  /* Dark forest green - high contrast */
+  --color-text-secondary: #5a6b5a;
+  /* Muted green for secondary text */
+  --color-text-muted: #8a9b8a;
+  /* Light text for hints */
+
+  --color-accent: #4caf50;
+  /* Friendly green accent */
+  --color-accent-hover: #43a047;
+  /* Slightly darker on hover */
+  --color-accent-light: #c8e6c9;
+  /* Light accent for backgrounds */
+
+  --color-border: #d0dcd0;
+  /* Subtle borders */
+  --color-success: #66bb6a;
+  --color-warning: #ffb74d;
+  --color-error: #ef5350;
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 32px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows - Very subtle for minimalism */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode - Calming deep forest theme */
+[data-theme="dark"] {
+  --color-bg-primary: #1a2e1a;
+  /* Deep forest */
+  --color-bg-secondary: #243524;
+  /* Slightly lighter forest */
+  --color-bg-accent: #2d4a2d;
+  /* Dark mint */
+
+  --color-text-primary: #e8f5e9;
+  /* Light sage text */
+  --color-text-secondary: #a5d6a7;
+  /* Muted light green */
+  --color-text-muted: #6b8e6b;
+  /* Darker muted text */
+
+  --color-accent: #66bb6a;
+  /* Brighter green for dark mode */
+  --color-accent-hover: #81c784;
+  --color-accent-light: #2d4a2d;
+
+  --color-border: #3d5a3d;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===================================
+   Layout - Optimal Space Usage
+   =================================== */
+
+.app-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================================
+   Cards - Clean & Minimal
+   =================================== */
+
+.card {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.card-header {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.card-header-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--color-accent);
+}
+
+/* ===================================
+   Form Elements - Child Friendly
+   =================================== */
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235a6b5a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+  padding-right: 40px;
+}
+
+/* ===================================
+   Marks Selector - Pill Style
+   =================================== */
+
+.marks-selector {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.marks-pill {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.marks-pill:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.marks-pill.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
+/* ===================================
+   Button - Friendly & Prominent
+   =================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  font-family: var(--font-family);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* ===================================
+   Answer Display - Reader Friendly
+   =================================== */
+
+.answer-container {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  height: 100%;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.answer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.answer-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.answer-marks-badge {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.answer-content {
+  flex: 1;
+  font-size: var(--font-size-lg);
+  line-height: 1.8;
+  color: var(--color-text-primary);
+  overflow-y: auto;
+}
+
+/* Answer text formatting */
+.answer-content p {
+  margin-bottom: var(--spacing-md);
+}
+
+.answer-content strong,
+.answer-content b {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.answer-content ul,
+.answer-content ol {
+  margin: var(--spacing-md) 0;
+  padding-left: var(--spacing-xl);
+}
+
+.answer-content li {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Empty state */
+.answer-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.answer-empty-icon {
+  font-size: 48px;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
+}
+
+.answer-empty-text {
+  font-size: var(--font-size-lg);
+}
+
+/* ===================================
+   Keywords / Tags
+   =================================== */
+
+.keywords-container {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.keywords-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-sm);
+}
+
+.keywords-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.keyword-tag {
+  background: var(--color-bg-accent);
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+/* ===================================
+   Header - Simple & Clean
+   =================================== */
+
+.app-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.app-logo {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-xs);
+}
+
+.app-tagline {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+/* ===================================
+   Loading State
+   =================================== */
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  margin-top: var(--spacing-md);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+/* ===================================
+   Error State
+   =================================== */
+
+.error-message {
+  background: #ffebee;
+  color: var(--color-error);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+/* ===================================
+   Footer
+   =================================== */
+
+.app-footer {
+  text-align: center;
+  padding-top: var(--spacing-xl);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* ===================================
+   Utility Classes
+   =================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ===================================
+   Responsive Adjustments
+   =================================== */
+
+@media (max-width: 600px) {
+  .app-container {
+    padding: var(--spacing-md);
+  }
+
+  .card {
+    padding: var(--spacing-lg);
+  }
+
+  .app-logo {
+    font-size: var(--font-size-xl);
+  }
+
+  .answer-content {
+    font-size: var(--font-size-base);
+  }
+}

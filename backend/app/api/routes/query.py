@@ -28,15 +28,21 @@ class Subject(str, Enum):
     ENGLISH = "English"
 
 
+class ChatMessage(BaseModel):
+    """A single message in the chat history."""
+    role: str = Field(..., description="Role: 'user' or 'model'")
+    content: str = Field(..., description="Message content")
+
+
 class QueryRequest(BaseModel):
     """Request model for student queries."""
     
     question: str = Field(
         ...,
-        min_length=5,
+        min_length=1,  # Allow shorter follow-ups
         max_length=500,
         description="The student's question",
-        examples=["Explain photosynthesis for 3 marks"]
+        examples=["Explain this further"]
     )
     subject: Optional[Subject] = Field(
         None,
@@ -51,6 +57,10 @@ class QueryRequest(BaseModel):
     chapter: Optional[str] = Field(
         None,
         description="Specific chapter to focus on"
+    )
+    history: List[ChatMessage] = Field(
+        default_factory=list,
+        description="Previous chat messages for context"
     )
 
 
@@ -92,50 +102,57 @@ async def process_query(request: QueryRequest):
     """
     Process a student's question and return a CBSE-style answer.
     """
-    logger.info(f"Processing query: {request.question[:50]}...")
+    logger.info(f"Processing query: {request.question[:50]}... (History: {len(request.history)} msgs)")
     
     # Step 1: Query Processing
     detected_subject = request.subject or Subject.SCIENCE
     detected_marks = request.marks or 3
     
+    # Auto-upgrade marks for elaboration requests to ensure detailed answers and more context
+    if any(keyword in request.question.lower() for keyword in ["elaborate", "explain", "detail", "more", "expand"]):
+        logger.info("Upgrading marks to 5 for elaboration request")
+        detected_marks = 5
+    
     # Step 2: Retrieval
     # Search for relevant content in vector store
+    search_query = request.question
+    
+    # Improve context for short follow-up questions
+    if request.history and len(request.question.split()) < 7:
+        # Get last 2 user messages to ensure we capture the original topic
+        # even if the immediate previous message was also a follow-up
+        user_msgs = [m.content for m in request.history if m.role == 'user']
+        if user_msgs:
+             context_str = " ".join(user_msgs[-2:]) # Last 2 messages
+             logger.info(f"Augmenting query with history: {context_str[:50]}...")
+             search_query = f"{context_str} {request.question}"
+
     retrieved_results = await retrieve_context(
-        query=request.question,
+        query=search_query,
         subject=detected_subject.value,
         limit=5 if detected_marks <= 3 else 8  # More context for long answers
     )
     
     # Filter results by relevance score (Cosine Similarity)
-    # Raised to 0.50 after fixing metadata bug.
-    RELEVANCE_THRESHOLD = 0.50
-    
-    logger.info(f"Top 3 raw scores: {[r.score for r in retrieved_results[:3]]}")
-    
+    # Lowered to 0.42 for Social Science flexibility
+    RELEVANCE_THRESHOLD = 0.42
+
     retrieved_results = [r for r in retrieved_results if r.score >= RELEVANCE_THRESHOLD]
     
     # Extract text content for the LLM
     context_chunks = [result.chunk.text for result in retrieved_results]
     
     # Step 3 & 4: Prompt Assembly & LLM Generation
-    # If no context found, return hard stop message
-    if not context_chunks:
-        logger.warning("No relevant context found for query - returning Hard Stop")
-        return QueryResponse(
-            answer="**Out of Syllabus:** I could not find any information related to this question in your study materials. Please check if the relevant chapter has been ingested.",
-            marks=detected_marks,
-            subject=detected_subject.value,
-            chapter=request.chapter,
-            sources=[],
-            keywords=["out of syllabus"]
-        )
-        
+    # Note: Even if no NEW context is found, we might still want to answer if it's a follow-up 
+    # (chat history + logic). But for now let's keep the hard stop lenient.
+    
     answer_text = await generate_answer(
         question=request.question,
         context_chunks=context_chunks,
         marks=detected_marks,
         subject=detected_subject.value,
-        chapter=request.chapter
+        chapter=request.chapter,
+        history=[{"role": m.role, "content": m.content} for m in request.history]
     )
     
     # Step 5: Response Formatting

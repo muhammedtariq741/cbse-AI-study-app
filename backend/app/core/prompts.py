@@ -17,11 +17,8 @@ STRICT RULES:
 3. Structure your answer for {marks} marks
 4. Include keywords that examiners specifically look for
 5. Do NOT add extra theory not present in the context
-6. Match the expected length precisely:
-   - 1 mark = 1-2 sentences (definition style)
-   - 2 marks = 2-3 points or definition + example
-   - 3 marks = 3 distinct points with brief explanations
-   - 5 marks = Introduction (1-2 sentences) + 3-4 detailed points with elaboration + Diagram/Conclusion
+6. Match the expected length precisely
+7. STRICT REFUSAL POLICY: If topics overlap, answer STRICTLY from the {subject} perspective. HOWEVER, if the question is clearly off-topic (e.g. History in Science) or irrelevant/inappropriate, output EXACTLY and ONLY this sentence: "I cannot assist with your query." Do not provide any explanation or apologies.
 
 FORMATTING GUIDELINES:
 - Use bullet points (•) for clarity and easy marking
@@ -94,7 +91,7 @@ def build_system_prompt(marks: int, subject: str) -> str:
     Returns:
         str: Complete system prompt
     """
-    base = CBSE_EXAMINER_SYSTEM_PROMPT.format(marks=marks)
+    base = CBSE_EXAMINER_SYSTEM_PROMPT.format(marks=marks, subject=subject)
     subject_specific = get_subject_prompt(subject)
     return f"{base}\n\n{subject_specific}"
 
@@ -103,6 +100,7 @@ def build_user_prompt(
     question: str,
     context_chunks: list[str],
     marks: int,
+    subject: str,
     chapter: Optional[str] = None
 ) -> str:
     """
@@ -112,6 +110,7 @@ def build_user_prompt(
         question: The student's question
         context_chunks: List of retrieved chunk texts
         marks: Target marks
+        subject: The subject being taught (e.g., "Science")
         chapter: Optional chapter name
         
     Returns:
@@ -121,6 +120,23 @@ def build_user_prompt(
     
     chapter_info = f" [Chapter: {chapter}]" if chapter else ""
     
+    if not context_chunks:
+        return f"""QUESTION ({marks} marks){chapter_info}:
+{question}
+
+INSTRUCTION: 
+You are a teacher for the subject: **{subject}**.
+This question appears to be a follow-up or a new question where no specific textbook context was found.
+
+**STRICT RULES:**
+1. **CHECK RELEVANCE:** If this question is NOT related to **{subject}** (e.g., asking about History when subject is Science), you MUST politely REFUSE to answer.
+   - Say: "I can only answer questions related to {subject}. Please switch subjects to ask this."
+2. **FOLLOW-UPS:** If this is a follow-up to our previous conversation (e.g., "Explain that more", "Give another example"), use the CHAT HISTORY to answer.
+3. **GENERAL KNOWLEDGE:** If it IS a {subject} question but context is missing, use your general knowledge to answer in the CBSE style.
+
+Answer adhering to these rules.
+"""
+
     return f"""CONTEXT FROM NCERT/CBSE MATERIALS:
 {context_section}
 
@@ -129,7 +145,7 @@ def build_user_prompt(
 QUESTION ({marks} marks){chapter_info}:
 {question}
 
-Provide a complete, board exam-worthy answer using ONLY the context above."""
+Provide a complete, board exam-worthy answer using ONLY the context above. If the context does not contain the answer, you may use the conversation history to fill in gaps for follow-up questions."""
 
 
 # Few-shot examples for different mark types

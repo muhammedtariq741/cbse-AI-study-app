@@ -48,7 +48,8 @@ async def generate_answer(
     marks: int,
     subject: str,
     chapter: Optional[str] = None,
-    use_few_shot: bool = True
+    use_few_shot: bool = True,
+    history: List[dict] = None
 ) -> str:
     """
     Generate a CBSE-style answer using Gemini.
@@ -60,6 +61,7 @@ async def generate_answer(
         subject: Subject name
         chapter: Optional chapter name
         use_few_shot: Whether to include few-shot example
+        history: List of previous chat messages (optional)
         
     Returns:
         str: Generated answer in CBSE board exam style
@@ -69,11 +71,22 @@ async def generate_answer(
     
     # Build prompts
     system_prompt = build_system_prompt(marks, subject)
-    user_prompt = build_user_prompt(question, context_chunks, marks, chapter)
+    user_prompt = build_user_prompt(question, context_chunks, marks, subject, chapter)
     
-    # Optionally add few-shot example
     messages = []
-    if use_few_shot:
+    
+    # 1. Add chat history first (if any)
+    if history:
+        for msg in history:
+            messages.append({
+                "role": msg["role"],
+                "parts": [{"text": msg["content"]}]
+            })
+    
+    # 2. Add few-shot example (only if history is empty to save context window?)
+    # Actually, keep it for style consistency, but maybe skip if history is long.
+    # For now, always include it to ensure strict adherence to format.
+    if use_few_shot and not history:
         example = get_few_shot_example(marks)
         messages.append({
             "role": "user",
@@ -84,13 +97,14 @@ async def generate_answer(
             "parts": [{"text": example['answer']}]
         })
     
-    # Add the actual question
+    # 3. Add the actual question/prompt
+    # If history exists, we might need to clarify that this is the NEXT question.
     messages.append({
         "role": "user",
         "parts": [{"text": user_prompt}]
     })
     
-    logger.info(f"Generating answer with {model} for {marks}-mark question")
+    logger.info(f"Generating answer with {model} for {marks}-mark question. History len: {len(history) if history else 0}")
     
     # Generate response
     response = client.models.generate_content(
@@ -123,7 +137,7 @@ async def generate_answer_stream(
     model = get_model_name()
     
     system_prompt = build_system_prompt(marks, subject)
-    user_prompt = build_user_prompt(question, context_chunks, marks, chapter)
+    user_prompt = build_user_prompt(question, context_chunks, marks, subject, chapter)
     
     response = client.models.generate_content_stream(
         model=model,

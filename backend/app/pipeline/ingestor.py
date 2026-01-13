@@ -47,6 +47,12 @@ class IngestionPipeline:
         self.parser = PDFParser()
         self.chunker = IntelligentChunker()
         self.vector_store = FAISSVectorStore(index_path=str(self.output_dir))
+        
+        # Load existing index if available
+        if self.vector_store.load():
+            logger.info(f"Loaded existing index with {self.vector_store.index.ntotal} vectors")
+        else:
+            logger.info("No existing index found, will create new one")
     
     async def ingest_pdfs(
         self,
